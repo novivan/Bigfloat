@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "BigFloat.cpp"
+#include "BigFloat.h"
 
 int main() {
     std::cout << "Hello, BigFloat!" << std::endl;
@@ -12,8 +12,7 @@ int main() {
     a.write();
     b.write();
 
-    BigFloat sum = a + b;
-    sum.write();
+
 
 
     return 0;

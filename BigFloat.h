@@ -35,11 +35,11 @@ class BigFloat {
 
         BigFloat operator+(const BigFloat& other) const;
 
-        BigFloat operator-(const BigFloat& other) const;
+        //BigFloat operator-(const BigFloat& other) const;
 
-        BigFloat operator*(const BigFloat& other) const;
+        //BigFloat operator*(const BigFloat& other) const;
 
-        BigFloat operator/(const BigFloat& other) const;
+        //BigFloat operator/(const BigFloat& other) const;
 };
 
 
