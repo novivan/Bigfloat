@@ -13,12 +13,13 @@ class BigFloat {
         std::vector<int> digits;
         bool negative;
         int count_digits;
-        int point_after_digit_number;
+        int order;
         int there_is_a_point_flag;
 
 
     public:
         BigFloat();
+        BigFloat(int number);
 
         void read();
         void write() const;
@@ -32,6 +33,18 @@ class BigFloat {
         bool operator>= (const BigFloat& other) const;
 
         bool operator== (const BigFloat& other) const;
+
+
+        BigFloat& operator= (const BigFloat& other);
+        /*
+        BigFloat& operator+= (const BigFloat& other);
+
+        BigFloat& operator-= (const BigFloat& other);
+
+        BigFloat& operator*= (const BigFloat& other);
+
+        BigFloat& operator/= (const BigFloat& other);
+        */
 
         BigFloat operator+(const BigFloat& other) const;
 
