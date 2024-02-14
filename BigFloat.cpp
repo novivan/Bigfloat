@@ -90,6 +90,10 @@ void BigFloat::write() const {
     std::cout << std::endl;
 }
 
+int BigFloat::frac_len() const {
+    return count_digits - order;
+}
+
 bool BigFloat::operator< (const BigFloat& other) const {
     if (negative != other.negative) {
         return negative;
@@ -109,7 +113,6 @@ bool BigFloat::operator< (const BigFloat& other) const {
                     return true;
                 }
             }
-
         }
     } else { // negative
         if (order > other.order) {
@@ -176,7 +179,7 @@ BigFloat& BigFloat::operator/= (const BigFloat& other){
 }
 */
 
-/*
+
 BigFloat BigFloat::operator+(const BigFloat& other) const{
     // TODO: Implement addition logic
     // Return the result as a new `BigFloat` object
@@ -185,32 +188,38 @@ BigFloat BigFloat::operator+(const BigFloat& other) const{
         result.negative = negative;
         result.order = std::max(order, other.order) + 1;
         result.there_is_a_point_flag = std::min(1, there_is_a_point_flag + other.there_is_a_point_flag);
-        int res_fraction_len = std::max(count_digits - order, other.count_digits - other.order);
+        int res_fraction_len = std::max(frac_len(), other.frac_len());
         result.count_digits = result.order + res_fraction_len;
+        result.digits = std::vector <int> (result.count_digits, 0);
 
-        */
-        /*int plus_from_prev = 0;
-        for (int i = 0; i < result.order; i++) {
-            int self_cur_digit = i < order ? digits[order - 1 - i] : 0;
-            int other_cur_digit = i < other.order ? other.digits[other.order - 1 - i] : 0;
-            int cur_digit = self_cur_digit + other_cur_digit + plus_from_prev;
-
-            result.digits[result.order - 1 - i] = cur_digit % 10;
-            plus_from_prev = cur_digit / 10;
-        }*/
-        /*
         int plus_from_prev = 0;
-        for (int i = 0; i < result.order; i++) {
+        for (int i = 0; i < result.count_digits; i++) {
+            int this_cur_digit, other_cur_digit;
 
+            if (i < res_fraction_len){ // we are still in fraction
+
+                this_cur_digit = (res_fraction_len - 1 - i < frac_len()) ? digits[order + res_fraction_len - 1 - i] : 0;
+                other_cur_digit = (res_fraction_len - 1 - i < other.frac_len()) ? other.digits[other.order + res_fraction_len - 1 - i] : 0;
+            } else { // we're already in integer part
+
+                this_cur_digit =  (order - 1 - (i - res_fraction_len) >= 0)? digits[order - 1 - (i - res_fraction_len)] : 0;
+                other_cur_digit =  (other.order - 1 - (i - res_fraction_len) >= 0)? other.digits[other.order - 1 - (i - res_fraction_len)] : 0;
+            }
+            int new_cur_digit = this_cur_digit + other_cur_digit + plus_from_prev;
+
+            result.digits[result.count_digits - 1 - i] = new_cur_digit % 10;
+            plus_from_prev = new_cur_digit / 10;
         }
+
+        return result;
 
     } else {
         // IN DEVELOPMENT
-        return
+        return BigFloat(0);
     }
 
 }
-*/
+
 
 
 /*

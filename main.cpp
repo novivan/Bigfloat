@@ -12,6 +12,11 @@ int main() {
     a.write();
     b.write();
 
+    BigFloat sum = a + b;
+    sum.write();
+
+
+    /*
     BigFloat c = BigFloat(0);
     BigFloat d = BigFloat(1);
     BigFloat e = BigFloat(6);
@@ -34,6 +39,7 @@ int main() {
     k.write();
     l.write();
 
+     */
 
 
 
