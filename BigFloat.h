@@ -5,10 +5,42 @@
 #ifndef BIGFLOAT_BIGFLOAT_H
 #define BIGFLOAT_BIGFLOAT_H
 
+#include <vector>
+
 
 class BigFloat {
+private:
+    std::vector<int> digits;
+    bool negative;
+    int count_digits;
+    int point_after_digit_number;
+    int there_is_a_point_flag;
 
+
+
+public:
+    BigFloat();
+
+    void read();
+    void write() const;
+
+    bool operator> (const BigFloat& other) const;
+
+    bool operator<= (const BigFloat& other) const;
+
+    bool operator>= (const BigFloat& other) const;
+
+    bool operator== (const BigFloat& other) const;
+
+    BigFloat operator+(const BigFloat& other) const;
+
+    BigFloat operator-(const BigFloat& other) const;
+
+    BigFloat operator*(const BigFloat& other) const;
+
+    BigFloat operator/(const BigFloat& other) const;
 };
+
 
 
 #endif //BIGFLOAT_BIGFLOAT_H
