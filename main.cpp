@@ -15,6 +15,12 @@ int main() {
     BigFloat sum = a + b;
     sum.write();
 
+    /*BigFloat diff_a = a - b, diff_b = b - a;
+    diff_a.write();
+    diff_b.write();
+     */
+
+
 
     /*
     BigFloat c = BigFloat(0);

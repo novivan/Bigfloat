@@ -21,10 +21,14 @@ class BigFloat {
         BigFloat();
         BigFloat(int number);
 
+        BigFloat abs() const;
+
         void read();
         void write() const;
 
         int frac_len() const;
+
+
 
         bool operator< (const BigFloat& other) const;
 
@@ -35,6 +39,9 @@ class BigFloat {
         bool operator>= (const BigFloat& other) const;
 
         bool operator== (const BigFloat& other) const;
+
+
+
 
 
         BigFloat& operator= (const BigFloat& other);

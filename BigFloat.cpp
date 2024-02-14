@@ -43,6 +43,12 @@ BigFloat::BigFloat(int number) {
 
 }
 
+BigFloat BigFloat::abs() const {
+    BigFloat ret = *this;
+    ret.negative = false;
+    return ret;
+}
+
 void BigFloat::read() {
     std::string input;
     std::cin >> input;
@@ -214,8 +220,33 @@ BigFloat BigFloat::operator+(const BigFloat& other) const{
         return result;
 
     } else {
+        // SHOULD BE TESTED!!!!!
+        // SHOULD BE DEBUGGED
+        BigFloat a = this->abs(), b = other.abs();
+        BigFloat result;
+        if (a > b) { // just subtract absolute meanings
+            result = *this;
+            if (result.frac_len() < other.frac_len()) {
+                int diff = other.frac_len() - result.frac_len();
+                result.count_digits += diff;
+                result.digits.resize(result.count_digits);
+                int minus_from_prev = 0; // always >= 0
+                for (int i = 0; i < result.count_digits; i++) {
+                    int cur_res_digit = result.digits[result.count_digits - 1 - i];
+                    int cur_other_digit = i < other.count_digits ? other.digits[other.count_digits - 1 - i] : 0;
+                    int ans_digit = cur_res_digit - cur_other_digit - minus_from_prev;
+                    minus_from_prev = 0;
+                    while (ans_digit < 0) {
+                        ans_digit += 10;
+                        minus_from_prev += 1;
+                    }
+                }
+            }
+        } else {
+            result = other + *this;
+        }
         // IN DEVELOPMENT
-        return BigFloat(0);
+        return result;
     }
 
 }
