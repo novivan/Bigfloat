@@ -74,6 +74,8 @@ void BigFloat::read() {
     }
 }
 
+
+
 void BigFloat::write() const {
     if (negative) {
         std::cout << "-";
@@ -101,6 +103,7 @@ int BigFloat::frac_len() const {
 }
 
 bool BigFloat::operator< (const BigFloat& other) const {
+    //TODO: correct "orders/count_digits" mistake
     if (negative != other.negative) {
         return negative;
     }
@@ -120,7 +123,7 @@ bool BigFloat::operator< (const BigFloat& other) const {
                 }
             }
         }
-    } else { // negative
+    } else { // positive
         if (order > other.order) {
             return false;
         } else if (order < other.order) {
@@ -162,6 +165,7 @@ BigFloat& BigFloat::operator= (const BigFloat& other){
     count_digits = other.count_digits;
     order = other.order;
     there_is_a_point_flag = other.there_is_a_point_flag;
+    digits = std::vector <int> (count_digits, 0);
     for (int i = 0; i < count_digits; i++) {
         digits[i] = other.digits[i];
     }
@@ -189,6 +193,7 @@ BigFloat& BigFloat::operator/= (const BigFloat& other){
 BigFloat BigFloat::operator+(const BigFloat& other) const{
     // TODO: Implement addition logic
     // Return the result as a new `BigFloat` object
+    // !!!! TODO: correct "leading zeros/wrong orders" mistake
     BigFloat result;
     if (negative == other.negative) {
         result.negative = negative;
@@ -220,8 +225,6 @@ BigFloat BigFloat::operator+(const BigFloat& other) const{
         return result;
 
     } else {
-        // SHOULD BE TESTED!!!!!
-        // SHOULD BE DEBUGGED
         BigFloat a = this->abs(), b = other.abs();
         BigFloat result;
         if (a > b) { // just subtract absolute meanings
@@ -230,17 +233,18 @@ BigFloat BigFloat::operator+(const BigFloat& other) const{
                 int diff = other.frac_len() - result.frac_len();
                 result.count_digits += diff;
                 result.digits.resize(result.count_digits);
-                int minus_from_prev = 0; // always >= 0
-                for (int i = 0; i < result.count_digits; i++) {
-                    int cur_res_digit = result.digits[result.count_digits - 1 - i];
-                    int cur_other_digit = i < other.count_digits ? other.digits[other.count_digits - 1 - i] : 0;
-                    int ans_digit = cur_res_digit - cur_other_digit - minus_from_prev;
-                    minus_from_prev = 0;
-                    while (ans_digit < 0) {
-                        ans_digit += 10;
-                        minus_from_prev += 1;
-                    }
+            }
+            int minus_from_prev = 0; // always >= 0
+            for (int i = 0; i < result.count_digits; i++) {
+                int cur_res_digit = result.digits[result.count_digits - 1 - i];
+                int cur_other_digit = i < other.count_digits ? other.digits[other.count_digits - 1 - i] : 0;
+                int ans_digit = cur_res_digit - cur_other_digit - minus_from_prev;
+                minus_from_prev = 0;
+                while (ans_digit < 0) {
+                    ans_digit += 10;
+                    minus_from_prev += 1;
                 }
+                result.digits[result.count_digits - 1 - i] = ans_digit;
             }
         } else {
             result = other + *this;
