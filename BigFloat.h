@@ -44,7 +44,7 @@ class BigFloat {
         bool operator== (const BigFloat& other) const;
 
 
-        //BigFloat operator-() const;
+        BigFloat operator-() const;
 
 
         BigFloat& operator= (const BigFloat& other);

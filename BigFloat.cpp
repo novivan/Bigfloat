@@ -165,6 +165,13 @@ bool BigFloat::operator== (const BigFloat& other) const {
     return (*this <= other) && (*this >= other);
 }
 
+BigFloat BigFloat::operator-() const {
+    BigFloat ret = *this;
+    ret.negative = !ret.negative;
+    return ret;
+}
+
+
 BigFloat& BigFloat::operator= (const BigFloat& other){
     negative = other.negative;
     count_digits = other.count_digits;

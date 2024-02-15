@@ -35,6 +35,9 @@ int main() {
         std::cout << "b = ";
         b.write();
 
+        std::cout << "-a = ";
+        (-a).write();
+
         BigFloat sum = a + b;
         std::cout << "a + b = ";
         sum.write();
