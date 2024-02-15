@@ -5,47 +5,57 @@
 int main() {
     std::cout << "Hello, BigFloat!" << std::endl;
 
+    /*
     BigFloat a, b;
     a.read();
     b.read();
 
+    std::cout << "a ";
     a.write();
+    std::cout << "b ";
     b.write();
 
-    BigFloat sum = a + b;
-    sum.write();
-
-    /*BigFloat diff_a = a - b, diff_b = b - a;
-    diff_a.write();
-    diff_b.write();
      */
+
+    /*BigFloat sum = a + b;
+    std::cout << "a + b ";
+    sum.write();*/
 
 
 
     /*
-    BigFloat c = BigFloat(0);
-    BigFloat d = BigFloat(1);
-    BigFloat e = BigFloat(6);
-    BigFloat f = BigFloat(10);
-    BigFloat g = BigFloat(20);
+    BigFloat diff_ab = a - b, diff_ba = b - a;
+    std::cout << "a - b ";
+    diff_ab.write();
+    std::cout << "b - a ";
+    diff_ba.write();
+    */
 
-    BigFloat i = BigFloat(-1);
-    BigFloat j = BigFloat(-6);
-    BigFloat k = BigFloat(-10);
-    BigFloat l = BigFloat(-20);
 
-    c.write();
-    d.write();
-    e.write();
-    f.write();
-    g.write();
+    /*
+    BigFloat A = a;
+    for (int i = 0; i < 5; i++) {
+        A += b;
+        A.write();
+    }
+    */
+    int n; std::cin >> n;
+    for (int i = 0; i < n; i++) {
+        BigFloat a, b;
+        a.read();
+        b.read();
+        std::cout << "a = ";
+        a.write();
+        std::cout << "b = ";
+        b.write();
 
-    i.write();
-    j.write();
-    k.write();
-    l.write();
-
-     */
+        a += b;
+        std::cout << "a = ";
+        a.write();
+        a += b;
+        std::cout << "a = ";
+        a.write();
+    }
 
 
 

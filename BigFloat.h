@@ -8,6 +8,7 @@
 #include <vector>
 
 
+
 class BigFloat {
     private:
         std::vector<int> digits;
@@ -20,6 +21,8 @@ class BigFloat {
     public:
         BigFloat();
         BigFloat(int number);
+
+        ~BigFloat();
 
         BigFloat abs() const;
 
@@ -41,13 +44,13 @@ class BigFloat {
         bool operator== (const BigFloat& other) const;
 
 
-
+        //BigFloat operator-() const;
 
 
         BigFloat& operator= (const BigFloat& other);
-        /*
-        BigFloat& operator+= (const BigFloat& other);
 
+        BigFloat& operator+= (const BigFloat& other);
+        /*
         BigFloat& operator-= (const BigFloat& other);
 
         BigFloat& operator*= (const BigFloat& other);
@@ -55,7 +58,7 @@ class BigFloat {
         BigFloat& operator/= (const BigFloat& other);
         */
 
-        BigFloat operator+(const BigFloat& other) const;
+        //BigFloat operator+(const BigFloat& other) const;
 
         //BigFloat operator-(const BigFloat& other) const;
 

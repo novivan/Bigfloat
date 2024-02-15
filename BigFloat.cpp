@@ -12,6 +12,7 @@
 
 
 
+
 BigFloat::BigFloat(){
     digits = std::vector <int> (0);
     negative = false;
@@ -40,6 +41,10 @@ BigFloat::BigFloat(int number) {
         pow_10 /= 10;
     }
 
+
+}
+
+BigFloat::~BigFloat() {
 
 }
 
@@ -103,7 +108,6 @@ int BigFloat::frac_len() const {
 }
 
 bool BigFloat::operator< (const BigFloat& other) const {
-    //TODO: correct "orders/count_digits" mistake
     if (negative != other.negative) {
         return negative;
     }
@@ -173,11 +177,108 @@ BigFloat& BigFloat::operator= (const BigFloat& other){
     }
     return *this;
 }
-/*
+
 BigFloat& BigFloat::operator+= (const BigFloat& other){
+    if (negative == other.negative) {
+        //result parametres
+        int max_ord = std::max(order, other.order) + 1;
+        int max_frac_len = std::max(frac_len(), other.frac_len());
+        int new_size = max_ord + max_frac_len;
+        int left_displacement = max_ord - order;
+
+        //resizing
+        if (new_size > count_digits) {
+            digits.resize(new_size);
+            if (left_displacement > 0) {
+                std::vector <int> help_new_vector (new_size, 0);
+                for (int i = 0; i < count_digits; i++) {
+                    help_new_vector[left_displacement + i] = digits[i];
+                }
+                for (int i = 0; i < new_size; i++) digits[i] = help_new_vector[i];
+            }
+            count_digits = new_size;
+            order = max_ord;
+            if (order < count_digits) {
+                there_is_a_point_flag = 1;
+            }
+        }
+
+        //executing addition
+        int plus_from_prev = 0;
+        for (int i = count_digits - 1; i >= 0; --i) {
+            int other_digit;
+            if (i >= order) { // digit in fraction
+                int fraction_index = i - order;
+                other_digit = (fraction_index + other.order < other.count_digits) ? other.digits[fraction_index + other.order] : 0;
+            } else { // digit in integer part
+                int integer_index = order - 1 - i;
+                other_digit = (integer_index  < other.order) ? other.digits[other.order - 1 - integer_index] : 0;
+            }
+            this->digits[i] += other_digit + plus_from_prev;
+            plus_from_prev = this->digits[i]/10;
+            this->digits[i] %= 10;
+        }
+        return *this;
+    } else {
+        BigFloat a = this->abs(), b = other.abs();
+        BigFloat help;
+        if (b > a) {
+            help = *this;
+            *this = other;
+        } else {
+            help = other;
+        }
+
+
+        //result parametres
+        int max_ord = std::max(order, help.order);
+        int max_frac_len = std::max(frac_len(), help.frac_len());
+        int new_size = max_ord + max_frac_len;
+        int left_displacement = max_ord - order;
+
+        //resizing
+        if (new_size > count_digits) {
+            digits.resize(new_size);
+            if (left_displacement > 0) {
+                std::vector <int> help_new_vector (new_size, 0);
+                for (int i = 0; i < count_digits; i++) {
+                    help_new_vector[left_displacement + i] = digits[i];
+                }
+                for (int i = 0; i < new_size; i++) digits[i] = help_new_vector[i];
+            }
+            count_digits = new_size;
+            order = max_ord;
+            if (order < count_digits) {
+                there_is_a_point_flag = 1;
+            }
+        }
+
+        //executing addition
+        int minus_from_prev = 0;
+        for (int i = count_digits - 1; i >= 0; --i) {
+            int other_digit;
+            if (i >= order) { // digit in fraction
+                int fraction_index = i - order;
+                other_digit = (fraction_index + help.order < help.count_digits) ? help.digits[fraction_index + help.order] : 0;
+            } else { // digit in integer part
+                int integer_index = order - 1 - i;
+                other_digit = (integer_index  < help.order) ? help.digits[help.order - 1 - integer_index] : 0;
+            }
+            this->digits[i] -= other_digit + minus_from_prev;
+            minus_from_prev = 0;
+            while(this->digits[i] < 0) {
+                this->digits[i] += 10;
+                minus_from_prev++;
+            }
+        }
+        return *this;
+
+
+        //IN DEVELOPMENT
+    }
 
 }
-
+/*
 BigFloat& BigFloat::operator-= (const BigFloat& other){
 
 }
@@ -192,70 +293,12 @@ BigFloat& BigFloat::operator/= (const BigFloat& other){
 */
 
 
+/*
 BigFloat BigFloat::operator+(const BigFloat& other) const{
     // Return the result as a new `BigFloat` object
-    // !!!! TODO: correct "leading zeros" mistake
-    BigFloat result;
-    if (negative == other.negative) {
-        result.negative = negative;
-        result.order = std::max(order, other.order) + 1;
-        result.there_is_a_point_flag = std::min(1, there_is_a_point_flag + other.there_is_a_point_flag);
-        int res_fraction_len = std::max(frac_len(), other.frac_len());
-        result.count_digits = result.order + res_fraction_len;
-        result.digits = std::vector <int> (result.count_digits, 0);
-
-        int plus_from_prev = 0;
-        for (int i = 0; i < result.count_digits; i++) {
-            int this_cur_digit, other_cur_digit;
-
-            if (i < res_fraction_len){ // we are still in fraction
-
-                this_cur_digit = (res_fraction_len - 1 - i < frac_len()) ? digits[order + res_fraction_len - 1 - i] : 0;
-                other_cur_digit = (res_fraction_len - 1 - i < other.frac_len()) ? other.digits[other.order + res_fraction_len - 1 - i] : 0;
-            } else { // we're already in integer part
-
-                this_cur_digit =  (order - 1 - (i - res_fraction_len) >= 0)? digits[order - 1 - (i - res_fraction_len)] : 0;
-                other_cur_digit =  (other.order - 1 - (i - res_fraction_len) >= 0)? other.digits[other.order - 1 - (i - res_fraction_len)] : 0;
-            }
-            int new_cur_digit = this_cur_digit + other_cur_digit + plus_from_prev;
-
-            result.digits[result.count_digits - 1 - i] = new_cur_digit % 10;
-            plus_from_prev = new_cur_digit / 10;
-        }
-
-        return result;
-
-    } else {
-        BigFloat a = this->abs(), b = other.abs();
-        BigFloat result;
-        if (a > b) { // just subtract absolute meanings
-            result = *this;
-            if (result.frac_len() < other.frac_len()) {
-                int diff = other.frac_len() - result.frac_len();
-                result.count_digits += diff;
-                result.digits.resize(result.count_digits);
-            }
-            int minus_from_prev = 0; // always >= 0
-            for (int i = 0; i < result.count_digits; i++) {
-                int cur_res_digit = result.digits[result.count_digits - 1 - i];
-                int cur_other_digit = i < other.count_digits ? other.digits[other.count_digits - 1 - i] : 0;
-                int ans_digit = cur_res_digit - cur_other_digit - minus_from_prev;
-                minus_from_prev = 0;
-                while (ans_digit < 0) {
-                    ans_digit += 10;
-                    minus_from_prev += 1;
-                }
-                result.digits[result.count_digits - 1 - i] = ans_digit;
-            }
-        } else {
-            result = other + *this;
-        }
-        // IN DEVELOPMENT
-        return result;
-    }
 
 }
-
+*/
 
 
 /*
@@ -263,6 +306,7 @@ BigFloat BigFloat::operator-(const BigFloat& other) const {
     // TODO: Implement subtraction logic
     // Return the result as a new `BigFloat` object
 }
+
 
 BigFloat BigFloat::operator*(const BigFloat& other) const {
     // TODO: Implement multiplication logic
