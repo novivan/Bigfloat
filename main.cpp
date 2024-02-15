@@ -5,26 +5,7 @@
 int main() {
     std::cout << "Hello, BigFloat!" << std::endl;
 
-    /*
-    BigFloat a, b;
-    a.read();
-    b.read();
 
-    std::cout << "a ";
-    a.write();
-    std::cout << "b ";
-    b.write();
-
-     */
-
-
-    /*
-    BigFloat A = a;
-    for (int i = 0; i < 5; i++) {
-        A += b;
-        A.write();
-    }
-    */
     int n; std::cin >> n;
     for (int i = 0; i < n; i++) {
         BigFloat a, b;

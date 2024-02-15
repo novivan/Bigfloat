@@ -29,7 +29,11 @@ class BigFloat {
         void read();
         void write() const;
 
+        void delete_extra_zeros();
+
         int frac_len() const;
+
+
 
 
 
@@ -52,6 +56,7 @@ class BigFloat {
         BigFloat& operator+= (const BigFloat& other);
 
         BigFloat& operator-= (const BigFloat& other);
+
         /*
         BigFloat& operator*= (const BigFloat& other);
 

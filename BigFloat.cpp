@@ -102,6 +102,28 @@ void BigFloat::write() const {
     std::cout << std::endl;
 }
 
+void BigFloat::delete_extra_zeros() {
+    int begin_del = 0, end_del = 0;
+    for (int i = 0; i < order - 1; i++) {
+        if (digits[i] == 0) begin_del++;
+        else break;
+    }
+    for (int i = 0; i < frac_len(); i++) {
+        if (digits[count_digits - 1 - i] == 0) end_del++;
+        else break;
+    }
+    if ((begin_del + end_del) > 0) {
+        for (int i = 0; i < count_digits - (begin_del + end_del); i++) {
+            digits[i] = digits[i + begin_del];
+        }
+        digits.resize(count_digits - (begin_del + end_del));
+    }
+    count_digits -= (begin_del + end_del);
+    order -= begin_del;
+    there_is_a_point_flag = (order == count_digits) ? 0 : 1;
+    return;
+}
+
 int BigFloat::frac_len() const {
     return count_digits - order;
 }
@@ -181,6 +203,7 @@ BigFloat& BigFloat::operator= (const BigFloat& other){
     for (int i = 0; i < count_digits; i++) {
         digits[i] = other.digits[i];
     }
+    this->delete_extra_zeros();
     return *this;
 }
 
@@ -224,6 +247,7 @@ BigFloat& BigFloat::operator+= (const BigFloat& other){
             plus_from_prev = this->digits[i]/10;
             this->digits[i] %= 10;
         }
+        this->delete_extra_zeros();
         return *this;
     } else {
         BigFloat a = this->abs(), b = other.abs();
@@ -277,10 +301,9 @@ BigFloat& BigFloat::operator+= (const BigFloat& other){
                 minus_from_prev++;
             }
         }
+        this->delete_extra_zeros();
         return *this;
 
-
-        //IN DEVELOPMENT
     }
 
 }
