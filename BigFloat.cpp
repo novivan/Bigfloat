@@ -295,21 +295,20 @@ BigFloat& BigFloat::operator/= (const BigFloat& other){
 */
 
 
-/*
+
 BigFloat BigFloat::operator+(const BigFloat& other) const{
-    // Return the result as a new `BigFloat` object
-
+    BigFloat ret = *this;
+    ret += other;
+    return ret;
 }
-*/
 
+BigFloat BigFloat::operator-(const BigFloat& other) const {
+    BigFloat ret = *this;
+    ret -= other;
+    return ret;
+}
 
 /*
-BigFloat BigFloat::operator-(const BigFloat& other) const {
-    // TODO: Implement subtraction logic
-    // Return the result as a new `BigFloat` object
-}
-
-
 BigFloat BigFloat::operator*(const BigFloat& other) const {
     // TODO: Implement multiplication logic
     // Return the result as a new `BigFloat` object

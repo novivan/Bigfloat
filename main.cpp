@@ -17,20 +17,6 @@ int main() {
 
      */
 
-    /*BigFloat sum = a + b;
-    std::cout << "a + b ";
-    sum.write();*/
-
-
-
-    /*
-    BigFloat diff_ab = a - b, diff_ba = b - a;
-    std::cout << "a - b ";
-    diff_ab.write();
-    std::cout << "b - a ";
-    diff_ba.write();
-    */
-
 
     /*
     BigFloat A = a;
@@ -48,6 +34,18 @@ int main() {
         a.write();
         std::cout << "b = ";
         b.write();
+
+        BigFloat sum = a + b;
+        std::cout << "a + b = ";
+        sum.write();
+
+
+        BigFloat diff_ab = a - b, diff_ba = b - a;
+        std::cout << "a - b = ";
+        diff_ab.write();
+        std::cout << "b - a = ";
+        diff_ba.write();
+
 
         a += b;
         std::cout << "a = ";
