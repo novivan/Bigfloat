@@ -25,7 +25,7 @@ BigFloat::BigFloat(int number) {
     there_is_a_point_flag = 0;
     count_digits = 1;
     order = 1;
-    negative = number < 0 ? 1 : 0;
+    negative = number < 0;
 
     int pow_10 = 1, number_copy = std::abs(number);
 
@@ -58,7 +58,6 @@ void BigFloat::read() {
     std::string input;
     std::cin >> input;
 
-    // TODO: Parse the input string
     digits.clear();
     count_digits = 0;
     order = -1;
@@ -278,11 +277,14 @@ BigFloat& BigFloat::operator+= (const BigFloat& other){
     }
 
 }
-/*
+
 BigFloat& BigFloat::operator-= (const BigFloat& other){
-
+    BigFloat help = other;
+    help.negative = !help.negative;
+    *this += help;
+    return *this;
 }
-
+/*
 BigFloat& BigFloat::operator*= (const BigFloat& other){
 
 }

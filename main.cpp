@@ -55,6 +55,19 @@ int main() {
         a += b;
         std::cout << "a = ";
         a.write();
+
+        a -= b;
+        std::cout << "a = ";
+        a.write();
+        a -= b;
+        std::cout << "a = ";
+        a.write();
+        a -= b;
+        std::cout << "a = ";
+        a.write();
+        a -= b;
+        std::cout << "a = ";
+        a.write();
     }
 
 
