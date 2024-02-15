@@ -108,40 +108,42 @@ bool BigFloat::operator< (const BigFloat& other) const {
         return negative;
     }
     if (negative) {
-        if (order > other.order) {
-            return true;
-        } else if (order < other.order) {
-            return false;
-        } else {
-            for (int i = 0; i < std::max(count_digits, other.count_digits); i++) {
-                int first_d = (i < count_digits) ? digits[i] : 0;
-                int second_d = (i < other.count_digits) ? other.digits[i] : 0;
-                if (first_d < second_d) {
-                    return false;
-                } else if (first_d > second_d) {
-                    return true;
-                }
+        int max_ord = std::max(order, other.order);
+        int max_frac_len = std::max(frac_len(), other.frac_len());
+        int extended_size = max_ord + max_frac_len;
+        for (int i = 0; i < extended_size; i++) {
+            int self_digit;
+            int other_digit;
+            if (i >= max_ord - order && i - max_ord < frac_len()) {
+                self_digit = digits[i - max_ord + order];
+            } else self_digit = 0;
+            if (i >= max_ord - other.order && i - max_ord < other.frac_len()) {
+                other_digit = other.digits[i - max_ord + other.order];
+            } else other_digit = 0;
+            if (self_digit != other_digit) {
+                return self_digit > other_digit;
             }
         }
+        return false;
     } else { // positive
-        if (order > other.order) {
-            return false;
-        } else if (order < other.order) {
-            return true;
-        } else {
-            for (int i = 0; i < std::max(count_digits, other.count_digits); i++) {
-                int first_d = (i < count_digits) ? digits[i] : 0;
-                int second_d = (i < other.count_digits) ? other.digits[i] : 0;
-                if (first_d < second_d) {
-                    return true;
-                } else if (first_d > second_d) {
-                    return false;
-                }
+        int max_ord = std::max(order, other.order);
+        int max_frac_len = std::max(frac_len(), other.frac_len());
+        int extended_size = max_ord + max_frac_len;
+        for (int i = 0; i < extended_size; i++) {
+            int self_digit;
+            int other_digit;
+            if (i >= max_ord - order && i - max_ord < frac_len()) {
+                self_digit = digits[i - max_ord + order];
+            } else self_digit = 0;
+            if (i >= max_ord - other.order && i - max_ord < other.frac_len()) {
+                other_digit = other.digits[i - max_ord + other.order];
+            } else other_digit = 0;
+            if (self_digit != other_digit) {
+                return self_digit < other_digit;
             }
         }
-
+        return false;
     }
-    return false;
 }
 
 bool BigFloat::operator> (const BigFloat& other) const {
@@ -191,9 +193,8 @@ BigFloat& BigFloat::operator/= (const BigFloat& other){
 
 
 BigFloat BigFloat::operator+(const BigFloat& other) const{
-    // TODO: Implement addition logic
     // Return the result as a new `BigFloat` object
-    // !!!! TODO: correct "leading zeros/wrong orders" mistake
+    // !!!! TODO: correct "leading zeros" mistake
     BigFloat result;
     if (negative == other.negative) {
         result.negative = negative;
