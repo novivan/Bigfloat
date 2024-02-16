@@ -11,6 +11,8 @@ int main() {
         BigFloat a, b;
         a.read();
         b.read();
+
+/*
         std::cout << "a = ";
         a.write();
         std::cout << "b = ";
@@ -22,12 +24,19 @@ int main() {
         BigFloat sum = a + b;
         std::cout << "a + b = ";
         sum.write();
-
+*/
         BigFloat mult = a * b;
         std::cout << "a * b = ";
         mult.write();
 
+        BigFloat A = a;
+        for (int j = 0; j < 10; j++) {
+            std::cout << "A == ";
+            A.write();
+            A *= b;
+        }
 
+/*
         BigFloat diff_ab = a - b, diff_ba = b - a;
         std::cout << "a - b = ";
         diff_ab.write();
@@ -54,6 +63,7 @@ int main() {
         a -= b;
         std::cout << "a = ";
         a.write();
+*/
     }
 
 

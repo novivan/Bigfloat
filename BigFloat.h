@@ -58,9 +58,9 @@ class BigFloat {
 
         BigFloat& operator-= (const BigFloat& other);
 
-        /*
-        BigFloat& operator*= (const BigFloat& other);
 
+        BigFloat& operator*= (const BigFloat& other);
+        /*
         BigFloat& operator/= (const BigFloat& other);
         */
 

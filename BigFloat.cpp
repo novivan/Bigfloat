@@ -316,11 +316,13 @@ BigFloat& BigFloat::operator-= (const BigFloat& other){
     *this += help;
     return *this;
 }
-/*
+
 BigFloat& BigFloat::operator*= (const BigFloat& other){
-
+    BigFloat result = (*this) * other;
+    *this = result;
+    return *this;
 }
-
+/*
 BigFloat& BigFloat::operator/= (const BigFloat& other){
 
 }
