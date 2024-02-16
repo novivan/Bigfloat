@@ -44,6 +44,7 @@ BigFloat::BigFloat(int number) {
 
 }
 
+
 BigFloat::~BigFloat() {
 
 }
@@ -76,6 +77,7 @@ void BigFloat::read() {
     if (order == -1) {
         order = count_digits;
     }
+    this->delete_extra_zeros();
 }
 
 
@@ -338,12 +340,69 @@ BigFloat BigFloat::operator-(const BigFloat& other) const {
     return ret;
 }
 
-/*
-BigFloat BigFloat::operator*(const BigFloat& other) const {
-    // TODO: Implement multiplication logic
-    // Return the result as a new `BigFloat` object
+
+
+
+
+BigFloat BigFloat::div_by_2() const {
+    int res_from_prev_digit = 0;
+    int i = 0;
+    BigFloat ans = *this;
+    while(i < count_digits) {
+        ans.digits[i] += res_from_prev_digit;
+        res_from_prev_digit = (ans.digits[i] % 2) * 10;
+        ans.digits[i]/=2;
+        i++;
+    }
+    if (res_from_prev_digit > 0) {
+        ans.digits.resize(ans.count_digits + 1);
+        ans.digits[count_digits] = res_from_prev_digit / 2;
+        ans.count_digits++;
+        ans.there_is_a_point_flag = (ans.count_digits > ans.order);
+    }
+    return ans;
 }
 
+BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
+    if (other.abs() < Eps) {
+        //перемножим тупо
+        BigFloat ret;
+        ret.count_digits = count_digits + other.count_digits;
+        ret.order = order + other.order;
+        ret.digits.resize(ret.count_digits);
+        ret.there_is_a_point_flag = (ret.order < ret.count_digits) ? 1 : 0;
+        ret.negative = negative ^ other.negative;
+
+        for (int i = 0; i < count_digits; i++) { //цифра в *this (номер)
+            for (int j = 0; j < other.count_digits; j++) { //цифра в other (номер)
+                int mult = digits[i] * other.digits[j];
+                int ret_ind = ret.order - 1 + (i - (order - 1)) + (j - (other.order - 1));
+                mult += ret.digits[ret_ind];
+                ret.digits[ret_ind] = mult % 10;
+                if (ret_ind > 0) ret.digits[ret_ind - 1] += mult / 10;
+            }
+        }
+        ret.delete_extra_zeros();
+        return ret;
+    } else {
+        BigFloat half_ans = mult(other.div_by_2(), Eps);
+        BigFloat ret = half_ans + half_ans;
+        ret.delete_extra_zeros();
+        return ret;
+    }
+};
+
+BigFloat BigFloat::operator*(const BigFloat& other) const {
+    BigFloat Eps = BigFloat(0);
+    Eps.digits.resize(400);
+    Eps.digits[399] = 1;
+    Eps.count_digits = 400;
+    Eps.order = 1;
+    Eps.there_is_a_point_flag = 1;
+    Eps.negative = false;
+    return this->mult(other, Eps);
+}
+/*
 BigFloat BigFloat::operator/(const BigFloat& other) const {
     // TODO: Implement division logic
     // Return the result as a new `BigFloat` object

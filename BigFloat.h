@@ -22,6 +22,7 @@ class BigFloat {
         BigFloat();
         BigFloat(int number);
 
+
         ~BigFloat();
 
         BigFloat abs() const;
@@ -67,7 +68,11 @@ class BigFloat {
 
         BigFloat operator-(const BigFloat& other) const;
 
-        //BigFloat operator*(const BigFloat& other) const;
+        BigFloat div_by_2()const;
+        BigFloat mult(const BigFloat& other, const BigFloat& Eps)const;
+        BigFloat operator*(const BigFloat& other) const;
+
+
 
         //BigFloat operator/(const BigFloat& other) const;
 };

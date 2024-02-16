@@ -23,6 +23,10 @@ int main() {
         std::cout << "a + b = ";
         sum.write();
 
+        BigFloat mult = a * b;
+        std::cout << "a * b = ";
+        mult.write();
+
 
         BigFloat diff_ab = a - b, diff_ba = b - a;
         std::cout << "a - b = ";
