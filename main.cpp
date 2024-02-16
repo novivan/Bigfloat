@@ -6,64 +6,23 @@ int main() {
     std::cout << "Hello, BigFloat!" << std::endl;
 
 
+
     int n; std::cin >> n;
     for (int i = 0; i < n; i++) {
         BigFloat a, b;
         a.read();
         b.read();
 
-/*
-        std::cout << "a = ";
-        a.write();
-        std::cout << "b = ";
-        b.write();
-
-        std::cout << "-a = ";
-        (-a).write();
-
-        BigFloat sum = a + b;
-        std::cout << "a + b = ";
-        sum.write();
-*/
         BigFloat mult = a * b;
         std::cout << "a * b = ";
         mult.write();
 
-        BigFloat A = a;
-        for (int j = 0; j < 10; j++) {
-            std::cout << "A == ";
-            A.write();
-            A *= b;
-        }
-
-/*
-        BigFloat diff_ab = a - b, diff_ba = b - a;
-        std::cout << "a - b = ";
-        diff_ab.write();
-        std::cout << "b - a = ";
-        diff_ba.write();
-
-
-        a += b;
-        std::cout << "a = ";
-        a.write();
-        a += b;
-        std::cout << "a = ";
-        a.write();
-
-        a -= b;
-        std::cout << "a = ";
-        a.write();
-        a -= b;
-        std::cout << "a = ";
-        a.write();
-        a -= b;
-        std::cout << "a = ";
-        a.write();
-        a -= b;
-        std::cout << "a = ";
-        a.write();
-*/
+        BigFloat div_a_b = a / b;
+        std::cout << "a / b = ";
+        div_a_b.write();
+        BigFloat div_b_a = b / a;
+        std::cout << "b / a = ";
+        div_b_a.write();
     }
 
 

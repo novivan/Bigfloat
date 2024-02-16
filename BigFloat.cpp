@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <limits.h>
 
 
 
@@ -366,6 +367,9 @@ BigFloat BigFloat::div_by_2() const {
 }
 
 BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
+
+    //TODO : MAKE IT FASTER!!!
+
     if (other.abs() < Eps) {
         //перемножим тупо
         BigFloat ret;
@@ -396,19 +400,54 @@ BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
 
 BigFloat BigFloat::operator*(const BigFloat& other) const {
     BigFloat Eps = BigFloat(0);
-    Eps.digits.resize(400);
-    Eps.digits[399] = 1;
-    Eps.count_digits = 400;
+    Eps.digits.resize(20);
+    Eps.digits[19] = 1;
+    Eps.count_digits = 20;
     Eps.order = 1;
     Eps.there_is_a_point_flag = 1;
     Eps.negative = false;
     return this->mult(other, Eps);
 }
-/*
+
 BigFloat BigFloat::operator/(const BigFloat& other) const {
-    // TODO: Implement division logic
-    // Return the result as a new `BigFloat` object
+    //TODO : FIND HOW TO THROW 'DIVISION BY 0' ERROR
+    BigFloat Eps = BigFloat(0);
+    Eps.digits.resize(20);
+    Eps.digits[19] = 1;
+    Eps.count_digits = 20;
+    Eps.order = 1;
+    Eps.there_is_a_point_flag = 1;
+    Eps.negative = false;
+    BigFloat l, m, r;
+    BigFloat big_number = BigFloat(INT_MAX / 10);
+
+
+    if (negative == other.negative) {
+        l = BigFloat(0);
+        r = (*this);
+        r.negative = false;
+        for (int i = 0; i < 10; i++) r *= big_number;
+
+        if (negative) {
+            while(r - l > Eps) {
+                m = (r + l).div_by_2();
+                if (other * m < (*this)) r = m;
+                else l = m;
+            }
+        } else {
+            while(r - l > Eps) {
+                m = (r + l).div_by_2();
+                if (other * m < (*this)) l = m;
+                else r = m;
+            }
+        }
+
+
+    }  else {
+        return -((*this) / (-other));
+    }
+    return m;
 }
-*/
+
 
 
