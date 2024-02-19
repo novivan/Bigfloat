@@ -191,26 +191,36 @@ bool BigFloat::operator== (const BigFloat& other) const {
 }
 
 BigFloat BigFloat::left_shift(int digs) const {
-    BigFloat ret = *this;
-    if (ret.frac_len() <= digs) {
-        ret.there_is_a_point_flag = 0;
+    if (digs < 0) {
+        return right_shift(-digs);
     }
+    if (digs == 0){
+        return *this;
+    }
+    BigFloat ret = *this;
     ret.order+=digs;
     ret.count_digits+=digs;
-    ret.digits.resize(count_digits);
+    ret.digits.resize(ret.count_digits);
     ret.delete_extra_zeros();
     return ret;
 }
 
 BigFloat BigFloat::right_shift(int digs) const {
+    if (digs < 0) {
+        return left_shift(-digs);
+    }
+    if (digs == 0){
+        return *this;
+    }
     BigFloat ret = *this;
     ret.there_is_a_point_flag = 1;
     ret.digits.resize(ret.count_digits + digs);
     ret.count_digits += digs;
-    for (int i = ret.count_digits - 2; i >=0; --i) {
+    for (int i = ret.count_digits - digs - 1; i >=0; --i) {
         ret.digits[i + digs] = ret.digits[i];
         if (i < digs) ret.digits[i] = 0;
     }
+
     ret.delete_extra_zeros();
     return ret;
 }
@@ -437,46 +447,31 @@ BigFloat BigFloat::operator*(const BigFloat& other) const {
     return this->mult(other, Eps);
 }
 
+
 BigFloat BigFloat::operator/(const BigFloat& other) const {
-    //TODO : FIND HOW TO THROW 'DIVISION BY 0' ERROR
-    //TODO : MAKE IT FASTER
 
-    BigFloat Eps = BigFloat(0);
-    Eps.digits.resize(20);
-    Eps.digits[19] = 1;
-    Eps.count_digits = 20;
-    Eps.order = 1;
-    Eps.there_is_a_point_flag = 1;
-    Eps.negative = false;
-    BigFloat l, m, r;
-    BigFloat big_number = BigFloat(INT_MAX / 10);
+    // точность до 100 знака полсе запятой
 
+    BigFloat res;
+    res.digits = std::vector <int> (200);
+    res.order = 100;
+    res.count_digits = 200;
+    res.negative = negative ^ other.negative;
+    res.there_is_a_point_flag = 1;
 
-    if (negative == other.negative) {
-        l = BigFloat(0);
-        r = (*this);
-        r.negative = false;
-        for (int i = 0; i < 10; i++) r *= big_number;
+    BigFloat rest_from_this = this->abs();
+    int cur_shift = 99;
+    while (cur_shift >= -100) {
 
-        if (negative) {
-            while(r - l > Eps) {
-                m = (r + l).div_by_2();
-                if (other * m < (*this)) r = m;
-                else l = m;
-            }
-        } else {
-            while(r - l > Eps) {
-                m = (r + l).div_by_2();
-                if (other * m < (*this)) l = m;
-                else r = m;
-            }
+        BigFloat help_number = other.abs().left_shift(cur_shift);
+        while(rest_from_this.abs() >= help_number.abs()) {
+            rest_from_this -= help_number;
+            res.digits[100 - cur_shift - 1]++;
         }
-
-
-    }  else {
-        return -((*this) / (-other));
+        cur_shift--;
     }
-    return m;
+    res.delete_extra_zeros();
+    return res;
 }
 
 
