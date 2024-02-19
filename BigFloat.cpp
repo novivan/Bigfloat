@@ -12,8 +12,6 @@
 
 
 
-
-
 BigFloat::BigFloat(){
     digits = std::vector <int> (0);
     negative = false;
@@ -45,6 +43,13 @@ BigFloat::BigFloat(int number) {
 
 }
 
+/*
+void BigFloat::set_precision(int n){
+    precision = n;
+}
+ */
+
+
 
 BigFloat::~BigFloat() {
 
@@ -70,7 +75,7 @@ void BigFloat::read() {
             count_digits++;
         } else if (c == '-' && count_digits == 0) {
             negative = true;
-        } else if (c == '.') {
+        } else if (c == '.' || c == ',') {
             order = count_digits;
             there_is_a_point_flag = 1;
         }
@@ -359,11 +364,12 @@ BigFloat& BigFloat::operator*= (const BigFloat& other){
     *this = result;
     return *this;
 }
-/*
-BigFloat& BigFloat::operator/= (const BigFloat& other){
 
+BigFloat& BigFloat::operator/= (const BigFloat& other){
+    *this = *this / other;
+    return *this;
 }
-*/
+
 
 
 
