@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Bigfloat main.cpp
         BigFloat.cpp
-        BigFloat.h)
+        BigFloat.h
+        pi.cpp)
