@@ -3,7 +3,7 @@ project(Bigfloat)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Bigfloat main.cpp
+add_executable(Bigfloat pi.cpp
         BigFloat.cpp
         BigFloat.h
-        pi.cpp)
+)
