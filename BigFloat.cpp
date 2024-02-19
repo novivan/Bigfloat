@@ -190,6 +190,32 @@ bool BigFloat::operator== (const BigFloat& other) const {
     return (*this <= other) && (*this >= other);
 }
 
+BigFloat BigFloat::left_shift() const {
+    BigFloat ret = *this;
+    if (ret.frac_len() == 1) {
+        ret.there_is_a_point_flag = 0;
+    }
+    ret.order++;
+    ret.count_digits++;
+    ret.digits.resize(count_digits);
+    ret.delete_extra_zeros();
+    return ret;
+}
+
+BigFloat BigFloat::right_shift() const {
+    BigFloat ret = *this;
+    ret.there_is_a_point_flag = 1;
+    ret.digits.resize(ret.count_digits + 1);
+    ret.count_digits++;
+    for (int i = ret.count_digits - 2; i >=0; --i) {
+        ret.digits[i + 1] = ret.digits[i];
+    }
+    ret.digits[0] = 0;
+    ret.delete_extra_zeros();
+    return ret;
+}
+
+
 BigFloat BigFloat::operator-() const {
     BigFloat ret = *this;
     ret.negative = !ret.negative;
@@ -366,10 +392,10 @@ BigFloat BigFloat::div_by_2() const {
     return ans;
 }
 
+
 BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
 
     //TODO : MAKE IT FASTER!!!
-
     if (other.abs() < Eps) {
         //перемножим тупо
         BigFloat ret;
@@ -398,6 +424,8 @@ BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
     }
 };
 
+
+
 BigFloat BigFloat::operator*(const BigFloat& other) const {
     BigFloat Eps = BigFloat(0);
     Eps.digits.resize(20);
@@ -411,6 +439,8 @@ BigFloat BigFloat::operator*(const BigFloat& other) const {
 
 BigFloat BigFloat::operator/(const BigFloat& other) const {
     //TODO : FIND HOW TO THROW 'DIVISION BY 0' ERROR
+    //TODO : MAKE IT FASTER
+
     BigFloat Eps = BigFloat(0);
     Eps.digits.resize(20);
     Eps.digits[19] = 1;

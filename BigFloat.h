@@ -48,6 +48,8 @@ class BigFloat {
 
         bool operator== (const BigFloat& other) const;
 
+        BigFloat left_shift() const;
+        BigFloat right_shift() const;
 
         BigFloat operator-() const;
 
@@ -71,6 +73,8 @@ class BigFloat {
         BigFloat div_by_2()const;
         BigFloat mult(const BigFloat& other, const BigFloat& Eps)const;
         BigFloat operator*(const BigFloat& other) const;
+
+
 
 
 

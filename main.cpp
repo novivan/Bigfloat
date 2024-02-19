@@ -13,6 +13,22 @@ int main() {
         a.read();
         b.read();
 
+        std::cout << "a_left_shift ";
+        a.left_shift().write();
+        std::cout << "a_right_shift ";
+        a.right_shift().write();
+        std::cout << "b_left_shift ";
+        b.left_shift().write();
+        std::cout << "b_right_shift ";
+        b.right_shift().write();
+
+
+        std::cout << "sum, diff" << std::endl;
+        BigFloat diff = a - b, sum = a + b;
+
+        sum.write();
+        diff.write();
+
         BigFloat mult = a * b;
         std::cout << "a * b = ";
         mult.write();
