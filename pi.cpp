@@ -5,7 +5,7 @@
 int main() {
     std::cout << "Hello, BigFloat!" << std::endl;
 
-
+    /*
 
     int n; std::cin >> n;
     for (int i = 0; i < n; i++) {
@@ -40,9 +40,9 @@ int main() {
         std::cout << "b / a = ";
         div_b_a.write();
     }
+    */
 
 
-    /*
     std::cout << "Enter a precision (amount of digits after '.') for pi" << std::endl;
     int n;
     std::cin >> n;
@@ -75,8 +75,9 @@ int main() {
 
 
     pi.write();
+    std::cout << "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811" <<'\n';
 
-    */
+
 
 
 
