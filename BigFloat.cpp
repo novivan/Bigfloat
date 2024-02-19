@@ -190,27 +190,27 @@ bool BigFloat::operator== (const BigFloat& other) const {
     return (*this <= other) && (*this >= other);
 }
 
-BigFloat BigFloat::left_shift() const {
+BigFloat BigFloat::left_shift(int digs) const {
     BigFloat ret = *this;
-    if (ret.frac_len() == 1) {
+    if (ret.frac_len() <= digs) {
         ret.there_is_a_point_flag = 0;
     }
-    ret.order++;
-    ret.count_digits++;
+    ret.order+=digs;
+    ret.count_digits+=digs;
     ret.digits.resize(count_digits);
     ret.delete_extra_zeros();
     return ret;
 }
 
-BigFloat BigFloat::right_shift() const {
+BigFloat BigFloat::right_shift(int digs) const {
     BigFloat ret = *this;
     ret.there_is_a_point_flag = 1;
-    ret.digits.resize(ret.count_digits + 1);
-    ret.count_digits++;
+    ret.digits.resize(ret.count_digits + digs);
+    ret.count_digits += digs;
     for (int i = ret.count_digits - 2; i >=0; --i) {
-        ret.digits[i + 1] = ret.digits[i];
+        ret.digits[i + digs] = ret.digits[i];
+        if (i < digs) ret.digits[i] = 0;
     }
-    ret.digits[0] = 0;
     ret.delete_extra_zeros();
     return ret;
 }

@@ -14,16 +14,16 @@ int main() {
         b.read();
 
         std::cout << "a_left_shift ";
-        a.left_shift().write();
+        a.left_shift(1).write();
         std::cout << "a_right_shift ";
-        a.right_shift().write();
+        a.right_shift(1).write();
         std::cout << "b_left_shift ";
-        b.left_shift().write();
+        b.left_shift(1).write();
         std::cout << "b_right_shift ";
-        b.right_shift().write();
+        b.right_shift(1).write();
 
 
-        std::cout << "sum, diff" << std::endl;
+        std::cout << "sum, diff:" << std::endl;
         BigFloat diff = a - b, sum = a + b;
 
         sum.write();

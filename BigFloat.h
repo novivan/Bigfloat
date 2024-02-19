@@ -48,8 +48,8 @@ class BigFloat {
 
         bool operator== (const BigFloat& other) const;
 
-        BigFloat left_shift() const;
-        BigFloat right_shift() const;
+        BigFloat left_shift(int digs) const;
+        BigFloat right_shift(int digs) const;
 
         BigFloat operator-() const;
 
