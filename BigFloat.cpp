@@ -1,7 +1,3 @@
-//
-// Created by Ivan Novikov on 14.02.2024.
-//
-
 #include "BigFloat.h"
 
 
@@ -102,12 +98,6 @@ void BigFloat::write() const {
     if (there_is_a_point_flag == 1 && precision > 0) {
         std::cout << ".";
     }
-
-
-
-    /*for (int i = order; i < count_digits; i++) {
-        std::cout << digits[i];
-    }*/
     for (int i = order; i < std::min(count_digits, order + precision); i++) {
         std::cout << digits[i];
     }
@@ -416,9 +406,9 @@ BigFloat BigFloat::div_by_2() const {
 
 BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
 
-    //TODO : MAKE IT FASTER!!!
     if (other.abs() < Eps) {
-        //перемножим тупо
+        //implementing siple multiplication
+
         BigFloat ret;
         ret.count_digits = count_digits + other.count_digits;
         ret.order = order + other.order;
@@ -480,8 +470,6 @@ BigFloat BigFloat::operator*(const BigFloat& other) const {
 
 
 BigFloat BigFloat::operator/(const BigFloat& other) const {
-
-    // точность до 250 знака полсе запятой
 
     BigFloat res;
 
