@@ -91,13 +91,13 @@ class BigFloat {
 
         BigFloat operator/(const BigFloat& other) const;
 
-        std::string to_string();
-
-
-
-
-
+        std::string to_string() const;
 };
 BigFloat operator ""_bf(const char* s);
+
+
+std::ostream &operator<<(std::ostream &os, const BigFloat &num);
+
+std::istream &operator>>(std::istream &is, BigFloat &num);
 
 #endif //BIGFLOAT_BIGFLOAT_H

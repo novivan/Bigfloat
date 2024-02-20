@@ -527,7 +527,7 @@ BigFloat BigFloat::operator/(const BigFloat& other) const {
     return res;
 }
 
-std::string BigFloat::to_string() {
+std::string BigFloat::to_string() const{
     std::string ret;
     if (negative) {
         //std::cout << "-";
@@ -558,6 +558,19 @@ std::string BigFloat::to_string() {
 
 BigFloat operator ""_bf(const char* s) {
     return std::string(s);
+}
+
+
+std::ostream &operator<<(std::ostream &out_stream, const BigFloat &num) {
+    out_stream << num.to_string();
+    return out_stream;
+}
+
+std::istream &operator>>(std::istream &input_stream, BigFloat &num) {
+    std::string input;
+    input_stream >> input;
+    num = BigFloat(input);
+    return input_stream;
 }
 
 

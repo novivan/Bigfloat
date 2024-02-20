@@ -42,7 +42,8 @@ void func(int n_from, int n_to) {
 }
 
 int main() {
-
+    pi.set_precision(150);
+/*
     try {
 
         std::cout << "Hello, BigFloat!" << std::endl;
@@ -79,21 +80,11 @@ int main() {
         }
         for (auto &i: vector_of_threads) i.join();
 
-        /*for (int k = 0; k <= n; k++) {
-            pi += bf_1 / common_denom * (
-                    (bf_4 / (bf_8 * BigFloat(k) + bf_1))
-                    - (bf_2 / (bf_8 * BigFloat(k) + bf_4))
-                    - (bf_1 / (bf_8 * BigFloat(k) + bf_5))
-                    - (bf_1 / (bf_8 * BigFloat(k) + bf_6))
-            );
-
-            common_denom *= base;
-        }*/
         n = help_n;
 
-
-        pi.write();
-        std::cout << pi.to_string() << " aaa" << std::endl;
+        //pi.write();
+        //std::cout << pi.to_string() << " aaa" << std::endl;
+        std::cout << pi << " bbb" << std::endl;
         //std::cout << "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196" <<'\n';
 
         auto end_time = std::chrono::high_resolution_clock::now();
@@ -104,6 +95,20 @@ int main() {
     }
     catch(const char* err_message) {
         std::cout << err_message << std::endl;
+    }
+*/
+
+    int n;
+    std::cin >> n;
+    BigFloat a = 0, b;
+    for (int i = 0; i < n; i++) {
+
+        std::cin >> a >> b;
+
+        std::cout <<"a * b = " << a * b << '\n' <<
+        "a / b = " << a / b << '\n' <<
+        "b / a = " << b / a << '\n';
+
     }
 
 
