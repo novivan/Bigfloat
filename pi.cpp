@@ -21,7 +21,7 @@ int threads_amount = 32;
 
 
 void func(int n_from, int n_to) {
-    std::mutex pi_mutex;
+    static std::mutex pi_mutex;
     BigFloat summand = BigFloat(0);
 
     for (int k = n_from; k <= n_to; k++) {
@@ -55,9 +55,11 @@ int main() {
         auto begin_time = std::chrono::high_resolution_clock::now();
 
 
+
         pi.set_precision(n);
         int help_n = n;
-        n = (n + threads_amount - 1) - (n + threads_amount - 1) % threads_amount; // make n % threads_amount == 0
+        n++;
+        n = (n + threads_amount - 1) - ((n + threads_amount - 1) % threads_amount); // make n % threads_amount == 0
 
         bases.resize(std::max(threads_amount, n));
         bases[0] = BigFloat(1);
@@ -92,7 +94,7 @@ int main() {
 
         auto end_time = std::chrono::high_resolution_clock::now();
         auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - begin_time);
-        std::cout << amount_of_time.count() << "ms" << std::endl;
+        std::cout << "time spent on counting pi - "<< amount_of_time.count() << " ms" << std::endl;
 
 
     }
