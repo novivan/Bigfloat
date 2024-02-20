@@ -475,6 +475,10 @@ BigFloat BigFloat::operator*(const BigFloat& other) const {
 
 BigFloat BigFloat::operator/(const BigFloat& other) const {
 
+    if (other == BigFloat(0)) {
+        throw "Divizion by zero error";
+    }
+
     BigFloat res;
 
     int prec_help = std::max(precision, 5);
