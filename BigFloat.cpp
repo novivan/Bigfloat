@@ -190,6 +190,10 @@ bool BigFloat::operator== (const BigFloat& other) const {
     return (*this <= other) && (*this >= other);
 }
 
+bool BigFloat::operator!= (const BigFloat& other) const {
+    return (*this < other) || (*this > other);
+}
+
 BigFloat BigFloat::left_shift(int digs) const {
     if (digs < 0) {
         return right_shift(-digs);
