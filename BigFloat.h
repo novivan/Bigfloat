@@ -22,6 +22,7 @@ class BigFloat {
     public:
         BigFloat();
         BigFloat(int number);
+        BigFloat(std::string s);
 
         static void set_precision(int n);
 
@@ -36,6 +37,8 @@ class BigFloat {
         void delete_extra_zeros();
 
         int frac_len() const;
+
+
 
 
 
@@ -88,7 +91,11 @@ class BigFloat {
 
         BigFloat operator/(const BigFloat& other) const;
 
-};
 
+
+
+
+};
+BigFloat operator ""_bf(const char* s);
 
 #endif //BIGFLOAT_BIGFLOAT_H

@@ -7,17 +7,20 @@
 #include "BigFloat.h"
 
 
-BigFloat pi = BigFloat(0);
-BigFloat bf_1 = BigFloat(1);
-BigFloat bf_2 = bf_1 + bf_1;
-BigFloat bf_4 = bf_2 * bf_2;
-BigFloat bf_8 = bf_4 * bf_2;
-BigFloat bf_6 = bf_8 - bf_2;
-BigFloat bf_5 = bf_6 - bf_1;
+BigFloat pi = 0_bf;
+BigFloat bf_1 = 1_bf;
+BigFloat bf_2 = 2_bf;
+BigFloat bf_4 = 4_bf;
+BigFloat bf_8 = 8_bf;
+BigFloat bf_6 = 6_bf;
+BigFloat bf_5 = 5_bf;
+
+
+
 
 std::vector <BigFloat> bases;
 
-int threads_amount = 32;
+int threads_amount = 8;
 
 
 void func(int n_from, int n_to) {

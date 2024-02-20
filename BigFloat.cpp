@@ -36,6 +36,29 @@ BigFloat::BigFloat(int number) {
     }
 }
 
+BigFloat::BigFloat(std::string s) {
+    digits.clear();
+    count_digits = 0;
+    order = -1;
+    there_is_a_point_flag = 0;
+    for (char c : s) {
+        if (std::isdigit(c)) {
+            digits.push_back(c - '0');
+            count_digits++;
+        } else if (c == '-' && count_digits == 0) {
+            negative = true;
+        } else if (c == '.' || c == ',') {
+            order = count_digits;
+            there_is_a_point_flag = 1;
+        }
+        if (frac_len() >= 2 * precision + 30) break;
+    }
+    if (order == -1) {
+        order = count_digits;
+    }
+    this->delete_extra_zeros();
+}
+
 
 
 void BigFloat::set_precision(int n) {
@@ -502,6 +525,10 @@ BigFloat BigFloat::operator/(const BigFloat& other) const {
     }
     res.delete_extra_zeros();
     return res;
+}
+
+BigFloat operator ""_bf(const char* s) {
+    return std::string(s);
 }
 
 
