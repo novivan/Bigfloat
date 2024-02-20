@@ -85,37 +85,14 @@ int main() {
 
         n = help_n;
 
-        //pi.write();
-        //std::cout << pi.to_string() << " aaa" << std::endl;
-        std::cout << pi << " bbb" << std::endl;
-        //std::cout << "3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534211706798214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196" <<'\n';
+        std::cout << pi << std::endl;
+
 
         auto end_time = std::chrono::high_resolution_clock::now();
         auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - begin_time);
         std::cout << "time spent on counting pi - "<< amount_of_time.count() << " ms" << std::endl;
-
-
     }
     catch(const char* err_message) {
         std::cout << err_message << std::endl;
     }
-
-    /*
-
-    int n;
-    std::cin >> n;
-    BigFloat a = 0, b;
-    for (int i = 0; i < n; i++) {
-
-        std::cin >> a >> b;
-
-        std::cout <<"a * b = " << a * b << '\n' <<
-        "a / b = " << a / b << '\n' <<
-        "b / a = " << b / a << '\n';
-
-    }
-
-
-    return 0;
-     */
 }

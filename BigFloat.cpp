@@ -66,10 +66,6 @@ void BigFloat::set_precision(int n) {
     precision = n;
 }
 
-
-
-
-
 BigFloat::~BigFloat() {
 
 }
@@ -393,9 +389,6 @@ BigFloat& BigFloat::operator/= (const BigFloat& other){
     return *this;
 }
 
-
-
-
 BigFloat BigFloat::operator+(const BigFloat& other) const{
     BigFloat ret = *this;
     ret += other;
@@ -407,10 +400,6 @@ BigFloat BigFloat::operator-(const BigFloat& other) const {
     ret -= other;
     return ret;
 }
-
-
-
-
 
 BigFloat BigFloat::div_by_2() const {
     int res_from_prev_digit = 0;
@@ -431,7 +420,6 @@ BigFloat BigFloat::div_by_2() const {
     return ans;
 }
 
-
 BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
 
     if (other.abs() < Eps) {
@@ -440,9 +428,7 @@ BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
         BigFloat ret;
         ret.count_digits = count_digits + other.count_digits;
         ret.order = order + other.order;
-
         ret.count_digits = std::min(ret.count_digits, ret.order + 2 * precision + 30);
-
         ret.digits.resize(ret.count_digits);
         ret.there_is_a_point_flag = (ret.order < ret.count_digits) ? 1 : 0;
         ret.negative = negative ^ other.negative;
@@ -456,7 +442,6 @@ BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
                 int mult = digits[i] * other.digits[j];
                 mult += ret.digits[ret_ind];
                 ret.digits[ret_ind] = mult % 10;
-
 
                 if (ret_ind > 0) {
                     ret.digits[ret_ind - 1] += mult / 10;
@@ -495,7 +480,6 @@ BigFloat BigFloat::operator*(const BigFloat& other) const {
     Eps.negative = false;
     return this->mult(other, Eps);
 }
-
 
 BigFloat BigFloat::operator/(const BigFloat& other) const {
 
