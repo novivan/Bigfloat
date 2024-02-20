@@ -91,6 +91,8 @@ class BigFloat {
 
         BigFloat operator/(const BigFloat& other) const;
 
+        std::string to_string();
+
 
 
 

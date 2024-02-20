@@ -527,6 +527,35 @@ BigFloat BigFloat::operator/(const BigFloat& other) const {
     return res;
 }
 
+std::string BigFloat::to_string() {
+    std::string ret;
+    if (negative) {
+        //std::cout << "-";
+        ret.push_back('-');
+    }
+
+    if (order == 0) {
+        ret.push_back('0');
+        //std::cout << "0";
+    }
+    for (int i = 0; i < order; i++) {
+        ret.push_back('0' + digits[i]);
+        //std::cout << digits[i];
+    }
+    if (there_is_a_point_flag == 1 && precision > 0) {
+        //std::cout << ".";
+        ret.push_back('.');
+    }
+    for (int i = order; i < std::min(count_digits, order + precision); i++) {
+        //std::cout << digits[i];
+        ret.push_back('0' + digits[i]);
+    }
+
+    //std::cout << std::endl;
+    return ret;
+
+}
+
 BigFloat operator ""_bf(const char* s) {
     return std::string(s);
 }
