@@ -6,6 +6,8 @@
 #define BIGFLOAT_BIGFLOAT_H
 
 #include <vector>
+#include <string>
+#include <iostream>
 
 
 

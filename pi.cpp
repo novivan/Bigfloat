@@ -1,4 +1,7 @@
 #include <iostream>
+#include <vector>
+#include <string>
+
 #include <chrono>
 
 #include <thread>
@@ -43,7 +46,7 @@ void func(int n_from, int n_to) {
 
 int main() {
     pi.set_precision(150);
-/*
+
     try {
 
         std::cout << "Hello, BigFloat!" << std::endl;
@@ -96,7 +99,8 @@ int main() {
     catch(const char* err_message) {
         std::cout << err_message << std::endl;
     }
-*/
+
+    /*
 
     int n;
     std::cin >> n;
@@ -113,4 +117,5 @@ int main() {
 
 
     return 0;
+     */
 }
