@@ -16,14 +16,14 @@ class BigFloat {
         int count_digits;
         int order;
         int there_is_a_point_flag;
-        static int precision;
+        inline static int precision;
 
 
     public:
         BigFloat();
         BigFloat(int number);
 
-        //void set_precision(int n);
+        static void set_precision(int n);
 
 
         ~BigFloat();
@@ -83,8 +83,8 @@ class BigFloat {
 
 
         BigFloat operator/(const BigFloat& other) const;
-};
 
+};
 
 
 #endif //BIGFLOAT_BIGFLOAT_H

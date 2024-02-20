@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include <vector>
-#include <limits.h>
 
 
 
@@ -39,15 +38,15 @@ BigFloat::BigFloat(int number) {
         number_copy %= pow_10;
         pow_10 /= 10;
     }
-
-
 }
 
-/*
-void BigFloat::set_precision(int n){
+
+
+void BigFloat::set_precision(int n) {
     precision = n;
 }
- */
+
+
 
 
 
@@ -79,6 +78,7 @@ void BigFloat::read() {
             order = count_digits;
             there_is_a_point_flag = 1;
         }
+        if (frac_len() >= 2 * precision + 30) break;
     }
     if (order == -1) {
         order = count_digits;
@@ -99,11 +99,16 @@ void BigFloat::write() const {
     for (int i = 0; i < order; i++) {
         std::cout << digits[i];
     }
-    if (there_is_a_point_flag == 1) {
+    if (there_is_a_point_flag == 1 && precision > 0) {
         std::cout << ".";
     }
 
-    for (int i = order; i < count_digits; i++) {
+
+
+    /*for (int i = order; i < count_digits; i++) {
+        std::cout << digits[i];
+    }*/
+    for (int i = order; i < std::min(count_digits, order + precision); i++) {
         std::cout << digits[i];
     }
 
@@ -417,17 +422,37 @@ BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
         BigFloat ret;
         ret.count_digits = count_digits + other.count_digits;
         ret.order = order + other.order;
+
+        ret.count_digits = std::min(ret.count_digits, ret.order + 2 * precision + 30);
+
         ret.digits.resize(ret.count_digits);
         ret.there_is_a_point_flag = (ret.order < ret.count_digits) ? 1 : 0;
         ret.negative = negative ^ other.negative;
 
         for (int i = 0; i < count_digits; i++) { //цифра в *this (номер)
             for (int j = 0; j < other.count_digits; j++) { //цифра в other (номер)
-                int mult = digits[i] * other.digits[j];
                 int ret_ind = ret.order - 1 + (i - (order - 1)) + (j - (other.order - 1));
+
+                if (ret_ind >= ret.count_digits) break;
+
+                int mult = digits[i] * other.digits[j];
                 mult += ret.digits[ret_ind];
                 ret.digits[ret_ind] = mult % 10;
-                if (ret_ind > 0) ret.digits[ret_ind - 1] += mult / 10;
+
+
+                if (ret_ind > 0) {
+                    ret.digits[ret_ind - 1] += mult / 10;
+                    ret_ind--;
+                    while (ret_ind >= 0) {
+                        if (ret.digits[ret_ind] > 9) {
+                            if (ret_ind > 0) {
+                                ret.digits[ret_ind - 1] += ret.digits[ret_ind]/10;
+                            }
+                            ret.digits[ret_ind] %= 10;
+                            ret_ind--;
+                        } else break;
+                    }
+                }
             }
         }
         ret.delete_extra_zeros();
@@ -444,9 +469,9 @@ BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
 
 BigFloat BigFloat::operator*(const BigFloat& other) const {
     BigFloat Eps = BigFloat(0);
-    Eps.digits.resize(20);
-    Eps.digits[19] = 1;
-    Eps.count_digits = 20;
+    Eps.digits.resize(10);
+    Eps.digits[9] = 1;
+    Eps.count_digits = 10;
     Eps.order = 1;
     Eps.there_is_a_point_flag = 1;
     Eps.negative = false;
@@ -456,23 +481,26 @@ BigFloat BigFloat::operator*(const BigFloat& other) const {
 
 BigFloat BigFloat::operator/(const BigFloat& other) const {
 
-    // точность до 100 знака полсе запятой
+    // точность до 250 знака полсе запятой
 
     BigFloat res;
-    res.digits = std::vector <int> (200);
-    res.order = 100;
-    res.count_digits = 200;
+
+    int prec_help = std::max(precision, 5);
+
+    res.digits = std::vector <int> (2 * prec_help + 2);
+    res.order = prec_help + 1;
+    res.count_digits = 2 * prec_help + 2;
     res.negative = negative ^ other.negative;
     res.there_is_a_point_flag = 1;
 
     BigFloat rest_from_this = this->abs();
-    int cur_shift = 99;
-    while (cur_shift >= -100) {
+    int cur_shift = prec_help;
+    while (cur_shift >= -(prec_help + 1)) {
 
         BigFloat help_number = other.abs().left_shift(cur_shift);
         while(rest_from_this.abs() >= help_number.abs()) {
             rest_from_this -= help_number;
-            res.digits[100 - cur_shift - 1]++;
+            res.digits[prec_help - cur_shift]++;
         }
         cur_shift--;
     }

@@ -1,8 +1,11 @@
 #include <iostream>
 
+
 #include "BigFloat.h"
 
 int main() {
+
+
     std::cout << "Hello, BigFloat!" << std::endl;
 
     /*
@@ -49,7 +52,7 @@ int main() {
 
     BigFloat pi = BigFloat(0);
 
-    //pi.set_precision(n);
+    pi.set_precision(n + 5);
 
     BigFloat bf_1 = BigFloat(1);
     BigFloat bf_2 = bf_1 + bf_1;
@@ -61,7 +64,7 @@ int main() {
     BigFloat common_denom = bf_1;
     BigFloat base = bf_4 * bf_4;
 
-    for (int k = 0; k <= n + 3; k++) {
+    for (int k = 0; k <= n + 2; k++) {
         pi += bf_1 / common_denom * (
                 (bf_4 / (bf_8 * BigFloat(k) + bf_1))
                 - (bf_2 / (bf_8 * BigFloat(k) + bf_4))
@@ -72,12 +75,10 @@ int main() {
         common_denom *= base;
     }
 
-
+    pi.set_precision(n);
 
     pi.write();
     std::cout << "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811" <<'\n';
-
-
 
 
 
