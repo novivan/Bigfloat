@@ -1,10 +1,8 @@
 #include "BigFloat.h"
 
-
+#include <iostream>
 #include <vector>
 #include <string>
-#include <iostream>
-
 
 
 
@@ -74,55 +72,6 @@ BigFloat BigFloat::abs() const {
     BigFloat ret = *this;
     ret.negative = false;
     return ret;
-}
-
-void BigFloat::read() {
-    std::string input;
-    std::cin >> input;
-
-    digits.clear();
-    count_digits = 0;
-    order = -1;
-    there_is_a_point_flag = 0;
-    for (char c : input) {
-        if (std::isdigit(c)) {
-            digits.push_back(c - '0');
-            count_digits++;
-        } else if (c == '-' && count_digits == 0) {
-            negative = true;
-        } else if (c == '.' || c == ',') {
-            order = count_digits;
-            there_is_a_point_flag = 1;
-        }
-        if (frac_len() >= 2 * precision + 30) break;
-    }
-    if (order == -1) {
-        order = count_digits;
-    }
-    this->delete_extra_zeros();
-}
-
-
-
-void BigFloat::write() const {
-    if (negative) {
-        std::cout << "-";
-    }
-
-    if (order == 0) {
-        std::cout << "0";
-    }
-    for (int i = 0; i < order; i++) {
-        std::cout << digits[i];
-    }
-    if (there_is_a_point_flag == 1 && precision > 0) {
-        std::cout << ".";
-    }
-    for (int i = order; i < std::min(count_digits, order + precision); i++) {
-        std::cout << digits[i];
-    }
-
-    std::cout << std::endl;
 }
 
 void BigFloat::delete_extra_zeros() {
@@ -515,30 +464,23 @@ BigFloat BigFloat::operator/(const BigFloat& other) const {
 std::string BigFloat::to_string() const{
     std::string ret;
     if (negative) {
-        //std::cout << "-";
         ret.push_back('-');
     }
 
     if (order == 0) {
         ret.push_back('0');
-        //std::cout << "0";
     }
     for (int i = 0; i < order; i++) {
         ret.push_back('0' + digits[i]);
-        //std::cout << digits[i];
     }
     if (there_is_a_point_flag == 1 && precision > 0) {
-        //std::cout << ".";
         ret.push_back('.');
     }
     for (int i = order; i < std::min(count_digits, order + precision); i++) {
-        //std::cout << digits[i];
         ret.push_back('0' + digits[i]);
     }
 
-    //std::cout << std::endl;
     return ret;
-
 }
 
 BigFloat operator ""_bf(const char* s) {
