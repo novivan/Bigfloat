@@ -1,14 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
 #include <chrono>
-
 #include <thread>
 #include <mutex>
 
 #include "BigFloat.h"
-
 
 BigFloat pi = 0_bf;
 BigFloat bf_1 = 1_bf;
@@ -17,19 +14,11 @@ BigFloat bf_4 = 4_bf;
 BigFloat bf_8 = 8_bf;
 BigFloat bf_6 = 6_bf;
 BigFloat bf_5 = 5_bf;
-
-
-
-
 std::vector <BigFloat> bases;
-
 int threads_amount = 8;
-
-
 void func(int n_from, int n_to) {
     static std::mutex pi_mutex;
     BigFloat summand = BigFloat(0);
-
     for (int k = n_from; k <= n_to; k++) {
         BigFloat cur_bf = BigFloat(k);
         summand += bf_1 / bases[k] * (
@@ -45,52 +34,34 @@ void func(int n_from, int n_to) {
 }
 
 int main() {
-
-
-
-    pi.set_precision(150);
-
+    BigFloat::set_precision(150);
     try {
-
         std::cout << "Hello, BigFloat!" << std::endl;
-
-
-
         std::cout << "Enter a precision (amount of digits after '.') for pi" << std::endl;
         int n;
         std::cin >> n;
-
-
-
+        while (n < 0) {
+            std::cerr << "Precision can't be negative \n";
+            std::cout << "Enter precision again" << std::endl;
+            std::cin >> n;
+        }
         auto begin_time = std::chrono::high_resolution_clock::now();
-
-
-
-        pi.set_precision(n);
-        int help_n = n;
+        BigFloat::set_precision(n);
         n++;
-        n = (n + threads_amount - 1) - ((n + threads_amount - 1) % threads_amount); // make n % threads_amount == 0
-
+        // making n % threads_amount == 0 and n++ for n not being zero
+        n = (n + threads_amount - 1) - ((n + threads_amount - 1) % threads_amount);
         bases.resize(std::max(threads_amount, n));
         bases[0] = BigFloat(1);
         bases[1] = BigFloat(16);
         for (int i = 2; i < bases.size(); i++) {
             bases[i] = bases[i - 1] * bases[1];
         }
-
-
-
         std::vector<std::thread> vector_of_threads(threads_amount);
         for (int i = 0; i < vector_of_threads.size(); i++) {
             vector_of_threads[i] = std::thread(func, i*(n/threads_amount), (i+1)*(n/threads_amount) - 1);
         }
         for (auto &i: vector_of_threads) i.join();
-
-        n = help_n;
-
         std::cout << pi << std::endl;
-
-
         auto end_time = std::chrono::high_resolution_clock::now();
         auto amount_of_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - begin_time);
         std::cout << "time spent on counting pi - "<< amount_of_time.count() << " ms" << std::endl;

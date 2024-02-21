@@ -1,12 +1,9 @@
-
 #ifndef BIGFLOAT_BIGFLOAT_H
 #define BIGFLOAT_BIGFLOAT_H
 
 #include <vector>
 #include <string>
 #include <iostream>
-
-
 
 class BigFloat {
     private:
@@ -16,77 +13,41 @@ class BigFloat {
         int order;
         int there_is_a_point_flag;
         inline static int precision;
+        void delete_extra_zeros();
+        inline int frac_len() const;
+        BigFloat left_shift(int digs) const;
+        BigFloat right_shift(int digs) const;
+        BigFloat div_by_2()const;
+        BigFloat mult(const BigFloat& other, const BigFloat& Eps)const;
 
 
     public:
         BigFloat();
         BigFloat(int number);
         BigFloat(std::string s);
+        ~BigFloat() = default;
 
         static void set_precision(int n);
 
-
-        ~BigFloat();
-
         BigFloat abs() const;
 
-        void delete_extra_zeros();
-
-        int frac_len() const;
-
-
-
-
-
-
-
         bool operator< (const BigFloat& other) const;
-
         bool operator> (const BigFloat& other) const;
-
         bool operator<= (const BigFloat& other) const;
-
         bool operator>= (const BigFloat& other) const;
-
         bool operator== (const BigFloat& other) const;
-
         bool operator!= (const BigFloat& other) const;
 
-
-        BigFloat left_shift(int digs) const;
-        BigFloat right_shift(int digs) const;
-
         BigFloat operator-() const;
-
-
         BigFloat& operator= (const BigFloat& other);
-
         BigFloat& operator+= (const BigFloat& other);
-
         BigFloat& operator-= (const BigFloat& other);
-
-
         BigFloat& operator*= (const BigFloat& other);
-
-
         BigFloat& operator/= (const BigFloat& other);
-
-
         BigFloat operator+(const BigFloat& other) const;
-
         BigFloat operator-(const BigFloat& other) const;
-
-        BigFloat div_by_2()const;
-        BigFloat mult(const BigFloat& other, const BigFloat& Eps)const;
         BigFloat operator*(const BigFloat& other) const;
-
-
-
-
-
-
         BigFloat operator/(const BigFloat& other) const;
-
         std::string to_string() const;
 };
 BigFloat operator ""_bf(const char* s);

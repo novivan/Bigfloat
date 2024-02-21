@@ -4,8 +4,6 @@
 #include <vector>
 #include <string>
 
-
-
 BigFloat::BigFloat(){
     digits = std::vector <int> (0);
     negative = false;
@@ -19,9 +17,7 @@ BigFloat::BigFloat(int number) {
     count_digits = 1;
     order = 1;
     negative = number < 0;
-
     int pow_10 = 1, number_copy = std::abs(number);
-
     while(pow_10 * 10 <= number_copy) {
         pow_10 *= 10;
         order++;
@@ -33,7 +29,6 @@ BigFloat::BigFloat(int number) {
         number_copy %= pow_10;
         pow_10 /= 10;
     }
-    //this->delete_extra_zeros();
 }
 
 BigFloat::BigFloat(std::string s) {
@@ -60,14 +55,8 @@ BigFloat::BigFloat(std::string s) {
     this->delete_extra_zeros();
 }
 
-
-
 void BigFloat::set_precision(int n) {
     precision = n;
-}
-
-BigFloat::~BigFloat() {
-
 }
 
 BigFloat BigFloat::abs() const {
@@ -99,8 +88,6 @@ void BigFloat::delete_extra_zeros() {
     if (order == 1 && count_digits == 1 && digits[0] == 0) {
         negative = false;
     }
-
-    return;
 }
 
 int BigFloat::frac_len() const {
@@ -200,7 +187,6 @@ BigFloat BigFloat::right_shift(int digs) const {
         ret.digits[i + digs] = ret.digits[i];
         if (i < digs) ret.digits[i] = 0;
     }
-
     ret.delete_extra_zeros();
     return ret;
 }
@@ -211,7 +197,6 @@ BigFloat BigFloat::operator-() const {
     ret.negative = !ret.negative;
     return ret;
 }
-
 
 BigFloat& BigFloat::operator= (const BigFloat& other){
     negative = other.negative;
@@ -233,7 +218,6 @@ BigFloat& BigFloat::operator+= (const BigFloat& other){
         int max_frac_len = std::max(frac_len(), other.frac_len());
         int new_size = max_ord + max_frac_len;
         int left_displacement = max_ord - order;
-
         //resizing
         if (new_size > count_digits) {
             digits.resize(new_size);
@@ -250,7 +234,6 @@ BigFloat& BigFloat::operator+= (const BigFloat& other){
                 there_is_a_point_flag = 1;
             }
         }
-
         //executing addition
         int plus_from_prev = 0;
         for (int i = count_digits - 1; i >= 0; --i) {
@@ -277,14 +260,11 @@ BigFloat& BigFloat::operator+= (const BigFloat& other){
         } else {
             help = other;
         }
-
-
         //result parametres
         int max_ord = std::max(order, help.order);
         int max_frac_len = std::max(frac_len(), help.frac_len());
         int new_size = max_ord + max_frac_len;
         int left_displacement = max_ord - order;
-
         //resizing
         if (new_size > count_digits) {
             digits.resize(new_size);
@@ -301,7 +281,6 @@ BigFloat& BigFloat::operator+= (const BigFloat& other){
                 there_is_a_point_flag = 1;
             }
         }
-
         //executing addition
         int minus_from_prev = 0;
         for (int i = count_digits - 1; i >= 0; --i) {
@@ -322,9 +301,7 @@ BigFloat& BigFloat::operator+= (const BigFloat& other){
         }
         this->delete_extra_zeros();
         return *this;
-
     }
-
 }
 
 BigFloat& BigFloat::operator-= (const BigFloat& other){
@@ -377,10 +354,8 @@ BigFloat BigFloat::div_by_2() const {
 }
 
 BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
-
     if (other.abs() < Eps) {
         //implementing siple multiplication
-
         BigFloat ret;
         ret.count_digits = count_digits + other.count_digits;
         ret.order = order + other.order;
@@ -388,17 +363,13 @@ BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
         ret.digits.resize(ret.count_digits);
         ret.there_is_a_point_flag = (ret.order < ret.count_digits) ? 1 : 0;
         ret.negative = negative ^ other.negative;
-
         for (int i = 0; i < count_digits; i++) { //цифра в *this (номер)
             for (int j = 0; j < other.count_digits; j++) { //цифра в other (номер)
                 int ret_ind = ret.order - 1 + (i - (order - 1)) + (j - (other.order - 1));
-
                 if (ret_ind >= ret.count_digits) break;
-
                 int mult = digits[i] * other.digits[j];
                 mult += ret.digits[ret_ind];
                 ret.digits[ret_ind] = mult % 10;
-
                 if (ret_ind > 0) {
                     ret.digits[ret_ind - 1] += mult / 10;
                     ret_ind--;
@@ -427,7 +398,7 @@ BigFloat BigFloat::mult(const BigFloat& other, const BigFloat& Eps)const {
 
 
 BigFloat BigFloat::operator*(const BigFloat& other) const {
-    BigFloat Eps = BigFloat(0);
+    BigFloat Eps = 0_bf;
     Eps.digits.resize(10);
     Eps.digits[9] = 1;
     Eps.count_digits = 10;
@@ -438,15 +409,11 @@ BigFloat BigFloat::operator*(const BigFloat& other) const {
 }
 
 BigFloat BigFloat::operator/(const BigFloat& other) const {
-
-    if (other == BigFloat(0)) {
+    if (other == 0_bf) {
         throw "Divizion by zero error";
     }
-
     BigFloat res;
-
     int prec_help = std::max(precision, 5);
-
     res.digits = std::vector <int> (2 * prec_help + 2);
     res.order = prec_help + 1;
     res.count_digits = 2 * prec_help + 2;
@@ -456,7 +423,6 @@ BigFloat BigFloat::operator/(const BigFloat& other) const {
     BigFloat rest_from_this = this->abs();
     int cur_shift = prec_help;
     while (cur_shift >= -(prec_help + 1)) {
-
         BigFloat help_number = other.abs().left_shift(cur_shift);
         while(rest_from_this.abs() >= help_number.abs()) {
             rest_from_this -= help_number;
@@ -486,14 +452,12 @@ std::string BigFloat::to_string() const{
     for (int i = order; i < std::min(count_digits, order + precision); i++) {
         ret.push_back('0' + digits[i]);
     }
-
     return ret;
 }
 
 BigFloat operator ""_bf(const char* s) {
     return std::string(s);
 }
-
 
 std::ostream &operator<<(std::ostream &out_stream, const BigFloat &num) {
     out_stream << num.to_string();
@@ -506,6 +470,3 @@ std::istream &operator>>(std::istream &input_stream, BigFloat &num) {
     num = BigFloat(input);
     return input_stream;
 }
-
-
-
