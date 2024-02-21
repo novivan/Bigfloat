@@ -33,6 +33,7 @@ BigFloat::BigFloat(int number) {
         number_copy %= pow_10;
         pow_10 /= 10;
     }
+    //this->delete_extra_zeros();
 }
 
 BigFloat::BigFloat(std::string s) {
@@ -40,6 +41,7 @@ BigFloat::BigFloat(std::string s) {
     count_digits = 0;
     order = -1;
     there_is_a_point_flag = 0;
+    negative = false;
     for (char c : s) {
         if (std::isdigit(c)) {
             digits.push_back(c - '0');
@@ -93,6 +95,11 @@ void BigFloat::delete_extra_zeros() {
     count_digits -= (begin_del + end_del);
     order -= begin_del;
     there_is_a_point_flag = (order == count_digits) ? 0 : 1;
+
+    if (order == 1 && count_digits == 1 && digits[0] == 0) {
+        negative = false;
+    }
+
     return;
 }
 

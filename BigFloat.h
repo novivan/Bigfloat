@@ -30,9 +30,6 @@ class BigFloat {
 
         BigFloat abs() const;
 
-        void read();
-        void write() const;
-
         void delete_extra_zeros();
 
         int frac_len() const;
@@ -94,9 +91,7 @@ class BigFloat {
 };
 BigFloat operator ""_bf(const char* s);
 
-
 std::ostream &operator<<(std::ostream &os, const BigFloat &num);
-
 std::istream &operator>>(std::istream &is, BigFloat &num);
 
 #endif //BIGFLOAT_BIGFLOAT_H

@@ -45,6 +45,9 @@ void func(int n_from, int n_to) {
 }
 
 int main() {
+
+
+
     pi.set_precision(150);
 
     try {
