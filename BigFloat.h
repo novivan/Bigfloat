@@ -23,8 +23,8 @@ class BigFloat {
 
     public:
         BigFloat();
-        BigFloat(int number);
-        BigFloat(std::string s);
+        explicit BigFloat(int number);
+        explicit BigFloat(std::string s);
         ~BigFloat() = default;
 
         static void set_precision(int n);

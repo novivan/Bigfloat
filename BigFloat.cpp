@@ -456,7 +456,7 @@ std::string BigFloat::to_string() const{
 }
 
 BigFloat operator ""_bf(const char* s) {
-    return std::string(s);
+    return BigFloat(std::string(s));
 }
 
 std::ostream &operator<<(std::ostream &out_stream, const BigFloat &num) {
