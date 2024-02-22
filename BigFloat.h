@@ -25,7 +25,6 @@ class BigFloat {
         BigFloat();
         explicit BigFloat(int number);
         explicit BigFloat(std::string s);
-        ~BigFloat() = default;
 
         static void set_precision(int n);
 
